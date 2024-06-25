@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fritzi</title>
+    <script src="https://vuppetmaster.de/vmapi/v4/api?key=RXFQT-PAEMF-623KK-71FLF"></script>
+    <style>
+      #webglcontainer
+      {
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background-color: #888888;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="webglcontainer"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    /*
+    This script is listening on a webserver for incoming messages for the virtual companion so that he gives
+    a voice output. Furthermore, it starts a new instance of the web avatar.
+    @author: Marcel Achner
+    */
+    var socket = io('http://localhost:3000');
+    var curr_dialect = 'en'
+
+    socket.on('avatar_json', function(data) {
+      vm.api.speak(data);
+      return "avatar spoken";
+    });
+
+    window.onload =  () => {
+      vm = new VM.Vuppetmaster();
+      vm.api.start( { language: curr_dialect });        // setting the language of the companion, de, en possible
+    }
+  </script>
+  </body>
+</html>
+
